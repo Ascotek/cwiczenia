@@ -2,9 +2,7 @@ package samouczek;
 
 import javax.sound.midi.Soundbank;
 import java.sql.SQLOutput;
-import java.util.Dictionary;
-import java.util.Hashtable;
-import java.util.Scanner;
+import java.util.*;
 
 public class Slownik {
 
@@ -25,10 +23,12 @@ public class Slownik {
         int usuwanie = 3;
         int wyjscie = 4;
 
-
         Dictionary<String, String> dictionary = new Hashtable<>();
-        dictionary.put("Magda", "burak");
+        dictionary.put("Magda", "Sii");
 
+        if(czynnosc>=4 && czynnosc<0) {
+            System.out.println("Mozesz podac tylko numer od 1 do 4");
+        }
 
         switch(czynnosc){
             case 1:
@@ -59,14 +59,12 @@ public class Slownik {
                 System.out.println("Podaj hasło:");
                 hasło1 = odczyt.next();
 
-                for(int i=0; i<dictionary.size(); i++){
-                    if(hasło1.equals(i)){
+                for(int i=0; i<dictionary.size(); i++) {
+                    if (hasło1.equals(i)) {
                         System.out.println("Już istnieje takie hasło");
-                    }else
+                    } else
                         System.out.println("Twóje hasło jest ok");
                 }
-
-
                 dictionary.put(klucz1, hasło1);
 
                 System.out.println("Teraz slownik zawiera: " + dictionary);
@@ -84,24 +82,11 @@ public class Slownik {
             default:
                 System.out.println("Koniec");
 
-
-
+        }
 
 
         }
 
-
-
-
-
-
-
-
-
-
-
-
-    }
 
 
 }
