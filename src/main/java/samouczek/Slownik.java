@@ -6,75 +6,126 @@ import java.util.*;
 
 public class Slownik {
 
+        static Map<String, String> dictionary;
+
     public static void main(String[] args) {
 
+       dictionary = new HashMap<String, String>();
 
+        boolean showMenu = true;
+        while (showMenu) {
+            showMenu = mainMenu();
+        }
+
+}
+    private static boolean mainMenu()
+    {
+
+        String name=""; //klucz
+        String phoneNumber=""; //wartość
         Scanner odczyt = new Scanner(System.in);
 
-        System.out.println("Witaj! Dodawanie wpisu - 1; Sprawdzanie - 2; Usuwanie - 3; Wyjście - 4" +
-                " Którą czynność chcesz wykonać?");
+        System.out.println("Dodawanie wpisu - 1\nSprawdzanie czy imię jest w słowniku - 2;\nSprawdzanie czy nr tel jest w słowniku - 3;\nUsuwanie wpisu - 4;\n " +
+                "Wyświetl wszystkie wpisy - 5\nZamknij apke - 6\nKtórą czynność chcesz wykonać?");
 
         int czynnosc;
         System.out.println("Podaj nr czynności: ");
         czynnosc = odczyt.nextInt();
 
-        int dodawanie = 1;
-        int sprawdzanie = 2;
-        int usuwanie = 3;
-        int wyjscie = 4;
-
-        Dictionary<String, String> dictionary = new Hashtable<>();
-        dictionary.put("Magda", "Sii");
-        dictionary.put("Anna", "Lego");
-
-
-        if(czynnosc>=4 && czynnosc<0) {
-            System.out.println("Mozesz podac tylko numer od 1 do 4");
-        }
 
         switch(czynnosc){
             case 1:
-                String klucz;
-                System.out.println("Podaj klucz:");
-                klucz = odczyt.next();
+                System.out.println("Podaj imię:");
+                name = odczyt.next();
 
-                String hasło;
-                System.out.println("Podaj hasło:");
-                hasło = odczyt.next();
+                System.out.println("Podaj nr tel:");
+                phoneNumber = odczyt.next();
 
-                dictionary.put(klucz, hasło);
-                System.out.println("W słowniku są: " + dictionary);
 
-                break;
+                if(!dictionary.containsKey(name))
+                {
+                    dictionary.put(name, phoneNumber);
+                    System.out.println("Użytkownik: " + name + " nr tel: " + phoneNumber + " został dodany do bazy.");
+                }
+                else
+                {
+                    System.out.println("Wpis już istnieje: " + name + " z nr tel: " + phoneNumber);
+                }
+                return true;
 
             case 2:
-                String klucz1;
-                System.out.println("Podaj klucz:");
-                klucz1 = odczyt.next();
-                boolean spr = ((Hashtable<String, String>) dictionary).containsKey(klucz1);
+                System.out.println("Podaj imię: ");
+                name = odczyt.next();
+                phoneNumber = dictionary.get(name);
 
-                System.out.println("Czy ten klucz istnieje? " + spr);
-                break;
+                if (dictionary.containsKey(name))
+                {
+                    System.out.println("Użytkownik o imieniu " + name + " istnieje w bazie." + " Jego numer telefonu to: " + phoneNumber);
+                }
+                else
+                {
+                    System.out.println("Użytkownik o takim imieniu nie ma w bazie. " +
+                            "Jeśli chcesz go dodać to przejdź do menu głownego wybierz 1 z menu głownego ");
+                }
+
+                return true;
 
             case 3:
-                System.out.println("Podaj klucz:");
-                klucz = odczyt.next();
+                System.out.println("Wpisz nr tel: ");
+                phoneNumber = odczyt.next();
+                name = dictionary.get(phoneNumber);
 
-                String usunietyWyraz = dictionary.remove(klucz);
+                if (dictionary.containsValue(phoneNumber))
+                {
+                    System.out.println("Użytkownik o tym " + phoneNumber + " numerze telefonu znajduje się już w bazie. Nazywa się " + name );
+                    System.out.println("Wciśnij 1, aby dodać nowego użytkownika");
+                }
+                else
+                {
+                    System.out.println("Nie ma takiego użytkownika w bazie. Wciśnij 1, aby dodać użytkownika");
+                }
+                return true;
 
-                System.out.println("Słownik usunał: " + usunietyWyraz  + " W słowniku pozostało: " + dictionary);
-                break;
-            case 4:
-                System.out.println("Wyjście");
-                break;
+            case 4: //usuniecie wpisu
+                System.out.println("Jesli chcesz usunąc użytkownika z bazy wpisz jego imię:");
+                name = odczyt.next();
+                dictionary.get(name);
+
+                if(dictionary.containsKey(name)){
+                    dictionary.remove(name);
+                    System.out.println("Wpis o imieniu " + name + " i numerze telefonu: " + phoneNumber + " został usuniety z bazy.");
+                    System.out.println("Wciśnij 1, aby dodać nowego użytkownika");
+            }
+                else
+                {
+                    System.out.println("Nie ma takiego wpisu w bazie dla hasła: " + name + " więc nie może być on usunięty");
+                    System.out.println("Wciśnij 1, aby dodać nowego użytkownika");
+                }
+
+                return true;
+
+            case 5:
+                if(dictionary.size()>0) {
+                    Set<Map.Entry<String, String>> entrySet = dictionary.entrySet();
+                    for (Map.Entry<String, String> entry : entrySet) {
+                        System.out.println("Wszystkie wpisy: ");
+                        System.out.println(entry.getKey() + " : " + entry.getValue());
+                    }
+                }
+                    else{
+                    System.out.println("Wciśnij 1, aby dodać nowego użytkownika");
+                    }
+                return true;
+
+            case 6:
+                return false;
+
             default:
-                System.out.println("Koniec");
+                System.out.println("Wybierz cyfre z menu!");
+                System.console().reader();
+                return true;
 
-        }
-
-
-        }
-
-
+    }
+}
 
 }
